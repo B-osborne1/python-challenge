@@ -1,20 +1,20 @@
 import csv
-import pandas as pd
+import os
 
 # open the file in read mode
 filename = open('Resources/election_data.csv', 'r')
 
-# creating dictreader object
-file = csv.DictReader(filename)
+# Using dictreader to avoid top row
+pypoll = csv.DictReader(filename)
 
-# grab column that will be untouched for length
+# grab column that will be untouched for length (unnecessary, but safe)
 county = []
 
 #Start dictionary to define both the candidates and their total votes
 candidate_counts = {}
+percentage = 0
 
-
-for col in file:
+for col in pypoll:
         #Finding total number of votes
     county.append(col["County"])
 
@@ -29,6 +29,9 @@ for col in file:
     else:
         candidate_counts[candidate] = 1
 
+
+#Find who had the most votes
+        #Use key to avoid last candidate overriding candidate with most votes
 elected = max(candidate_counts, key=candidate_counts.get)
 
 
@@ -45,5 +48,22 @@ print("-------------------")
 for candidate, count in candidate_counts.items():
     print(f"{candidate}: {count} votes")
 
+    #State the candidate with the highest votes
 print("-------------------")
-print(elected)
+print("Winner=", elected)
+
+# Set variable for output file
+output_file = os.path.join("Analysis/pypoll_analysis.csv")
+
+
+#  Open the output file
+with open(output_file, "w", newline='') as datafile:
+    writer = csv.writer(datafile)
+
+    # Write the header row
+    writer.writerow(["Candidate", "Number of votes", "Total votes", "Winner"])
+
+    # Write rows
+    for candidate, count in candidate_counts.items():
+        # Write each candidate's information
+        writer.writerow([candidate, count, len(county), elected])
