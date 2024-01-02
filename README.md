@@ -7,7 +7,7 @@ This repository utilises python and the csv system to analyse excel spreadsheets
 This folder contains an analysis on the changes over time (monthly) that a company logged. The focus is on finding the length in months, followed by total/average changes and min/max months.
 
 Notes:  Use of dictreader at line 7 to avoid header rows was from a source that was lost before noting
-        Analysis file has had its headers adjusted which will be overriden when code used
+Analysis file has had its headers adjusted which will be overriden when code used
  
 2) PyPoll
 
